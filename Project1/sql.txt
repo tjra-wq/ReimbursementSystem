@@ -1,0 +1,87 @@
+-- Creating Tables AND INSERTING SAMPLE VALUES
+CREATE TABLE EMPLOYEE1 (
+    EID INT PRIMARY KEY AUTO_INCREMENT,
+    USERNAME VARCHAR(200) NOT NULL UNIQUE,
+    PASSWORD VARCHAR(200) NOT NULL,
+    FIRSTNAME VARCHAR(200),
+    LASTNAME VARCHAR(200),
+    isManager boolean,
+    managerID INT
+);
+-- if isManager is false then that employee needs to be assigned a manager
+
+-- inserting manager employees
+INSERT INTO EMPLOYEE1 VALUES (1,LOWER('ASD'),'asd','m1FirstName','m1LastName',true,null);
+INSERT INTO EMPLOYEE1 VALUES (0,LOWER('1ASD'),'asd','m2FirstName','m2LastName',true,null);
+
+-- inserting employees with managers assigned to them
+INSERT INTO EMPLOYEE1 VALUES (0,LOWER('EMPLOYEE1'),'asd','e1FirstName','e1LastName',false,1);
+INSERT INTO EMPLOYEE1 VALUES (0,LOWER('EMPLOYEE2'),'asd','e2FirstName','e2LastName',false,1);
+INSERT INTO EMPLOYEE1 VALUES (0,LOWER('EMPLOYEE3'),'asd','e3FirstName','e3LastName',false,1);
+INSERT INTO EMPLOYEE1 VALUES (0,LOWER('EMPLOYEE4'),'asd','e4FirstName','e4LastName',false,1);
+INSERT INTO EMPLOYEE1 VALUES (0,LOWER('EMPLOYEE5'),'asd','e5FirstName','e5LastName',false,1);
+INSERT INTO EMPLOYEE1 VALUES (0,LOWER('EMPLOYEE6'),'asd','e6FirstName','e6LastName',false,1);
+
+INSERT INTO EMPLOYEE1 VALUES (0,LOWER('EMPLOYEE7'),'asd','e7FirstName','e7LastName',false,2);
+INSERT INTO EMPLOYEE1 VALUES (0,LOWER('EMPLOYEE8'),'asd','e8FirstName','e8LastName',false,2);
+INSERT INTO EMPLOYEE1 VALUES (0,LOWER('EMPLOYEE9'),'asd','e9FirstName','e9LastName',false,2);
+INSERT INTO EMPLOYEE1 VALUES (0,LOWER('EMPLOYEE10'),'asd','e10FirstName','e10LastName',false,2);
+
+
+CREATE TABLE REIMBURSEMENT1 (
+    RID INT PRIMARY KEY AUTO_INCREMENT,
+    EIDRequester INT,
+    AMOUNT DOUBLE,
+    DESCRIPTION VARCHAR(1000),
+    DATE1 DATE,
+    RSTATUS VARCHAR(20),
+    RCOMMENT VARCHAR(1000),
+	CONSTRAINT FK_REIMBURSEMENT1_EMPLOYEE1 FOREIGN KEY REIMBURSEMENT1(EIDRequester) REFERENCES EMPLOYEE1(EID)
+);
+INSERT INTO REIMBURSEMENT1 VALUES (1,3,250.55,'Airfare from Newark, NJ to Dallas, TX','2020-01-05','pending',null);
+INSERT INTO REIMBURSEMENT1 VALUES (0,3,200.95,'Airfare from Dallas, TX to Newark, NJ','2020-01-10','pending',null);
+INSERT INTO REIMBURSEMENT1 VALUES (0,3,350.95,'Airfare from Newark, NJ to Los Angeles,CA','2020-05-25','approved','This is Approved');
+INSERT INTO REIMBURSEMENT1 VALUES (0,3,3511.45,'Airfare from Los Angeles,CA to Newark, NJ','2020-05-30','denied','Please verify the amount and resubmit');
+INSERT INTO REIMBURSEMENT1 VALUES (0,4,250.55,'Airfare from Newark, NJ to Dallas, TX','2020-01-05','pending',null);
+INSERT INTO REIMBURSEMENT1 VALUES (0,4,200.95,'Airfare from Dallas, TX to Newark, NJ','2020-01-10','pending',null);
+INSERT INTO REIMBURSEMENT1 VALUES (0,4,350.95,'Airfare from Newark, NJ to Los Angeles,CA','2020-05-25','approved','This is Approved');
+INSERT INTO REIMBURSEMENT1 VALUES (0,4,3511.45,'Airfare from Los Angeles,CA to Newark, NJ','2020-05-30','denied','Please verify the amount and resubmit');
+INSERT INTO REIMBURSEMENT1 VALUES (0,5,250.55,'Airfare from Newark, NJ to Dallas, TX','2020-01-05','pending',null);
+INSERT INTO REIMBURSEMENT1 VALUES (0,5,200.95,'Airfare from Dallas, TX to Newark, NJ','2020-01-10','pending',null);
+INSERT INTO REIMBURSEMENT1 VALUES (0,5,350.95,'Airfare from Newark, NJ to Los Angeles,CA','2020-05-25','approved','This is Approved');
+INSERT INTO REIMBURSEMENT1 VALUES (0,5,3511.45,'Airfare from Los Angeles,CA to Newark, NJ','2020-05-30','denied','Please verify the amount and resubmit');
+INSERT INTO REIMBURSEMENT1 VALUES (0,6,250.55,'Airfare from Newark, NJ to Dallas, TX','2020-01-05','pending',null);
+INSERT INTO REIMBURSEMENT1 VALUES (0,6,200.95,'Airfare from Dallas, TX to Newark, NJ','2020-01-10','pending',null);
+INSERT INTO REIMBURSEMENT1 VALUES (0,6,350.95,'Airfare from Newark, NJ to Los Angeles,CA','2020-05-25','approved','This is Approved');
+INSERT INTO REIMBURSEMENT1 VALUES (0,6,3511.45,'Airfare from Los Angeles,CA to Newark, NJ','2020-05-30','denied','Please verify the amount and resubmit');
+INSERT INTO REIMBURSEMENT1 VALUES (0,7,250.55,'Airfare from Newark, NJ to Dallas, TX','2020-01-05','pending',null);
+INSERT INTO REIMBURSEMENT1 VALUES (0,7,200.95,'Airfare from Dallas, TX to Newark, NJ','2020-01-10','pending',null);
+INSERT INTO REIMBURSEMENT1 VALUES (0,7,350.95,'Airfare from Newark, NJ to Los Angeles,CA','2020-05-25','approved','This is Approved');
+INSERT INTO REIMBURSEMENT1 VALUES (0,7,3511.45,'Airfare from Los Angeles,CA to Newark, NJ','2020-05-30','denied','Please verify the amount and resubmit');
+INSERT INTO REIMBURSEMENT1 VALUES (0,8,250.55,'Airfare from Newark, NJ to Dallas, TX','2020-01-05','pending',null);
+INSERT INTO REIMBURSEMENT1 VALUES (0,8,200.95,'Airfare from Dallas, TX to Newark, NJ','2020-01-10','pending',null);
+INSERT INTO REIMBURSEMENT1 VALUES (0,8,350.95,'Airfare from Newark, NJ to Los Angeles,CA','2020-05-25','approved','This is Approved');
+INSERT INTO REIMBURSEMENT1 VALUES (0,8,3511.45,'Airfare from Los Angeles,CA to Newark, NJ','2020-05-30','denied','Please verify the amount and resubmit');
+INSERT INTO REIMBURSEMENT1 VALUES (0,9,250.55,'Airfare from Newark, NJ to Dallas, TX','2020-01-05','pending',null);
+INSERT INTO REIMBURSEMENT1 VALUES (0,9,200.95,'Airfare from Dallas, TX to Newark, NJ','2020-01-10','pending',null);
+INSERT INTO REIMBURSEMENT1 VALUES (0,9,350.95,'Airfare from Newark, NJ to Los Angeles,CA','2020-05-25','approved','This is Approved');
+INSERT INTO REIMBURSEMENT1 VALUES (0,9,3511.45,'Airfare from Los Angeles,CA to Newark, NJ','2020-05-30','denied','Please verify the amount and resubmit');
+INSERT INTO REIMBURSEMENT1 VALUES (0,10,250.55,'Airfare from Newark, NJ to Dallas, TX','2020-01-05','pending',null);
+INSERT INTO REIMBURSEMENT1 VALUES (0,10,200.95,'Airfare from Dallas, TX to Newark, NJ','2020-01-10','pending',null);
+INSERT INTO REIMBURSEMENT1 VALUES (0,10,350.95,'Airfare from Newark, NJ to Los Angeles,CA','2020-05-25','approved','This is Approved');
+INSERT INTO REIMBURSEMENT1 VALUES (0,10,3511.45,'Airfare from Los Angeles,CA to Newark, NJ','2020-05-30','denied','Please verify the amount and resubmit');
+
+SELECT EID, USERNAME, PASSWORD, FIRSTNAME, LASTNAME, managerID FROM project1.EMPLOYEE1 WHERE isManager=0;
+SELECT RID, AMOUNT, DESCRIPTION, DATE1, RSTATUS, RCOMMENT FROM project1.REIMBURSEMENT1 WHERE EIDRequester=3;
+SELECT RID, AMOUNT, DESCRIPTION, DATE1, RSTATUS, RCOMMENT FROM project1.REIMBURSEMENT1 WHERE EIDRequester=3 AND RSTATUS='approved' ;
+
+
+SELECT RID, EIDRequester, AMOUNT, DESCRIPTION, DATE1, RSTATUS, RCOMMENT FROM project1.REIMBURSEMENT1 WHERE
+EIDRequester IN (SELECT EID FROM project1.EMPLOYEE1 WHERE managerID =1);
+
+
+
+
+-- DROP OR DELETE query
+DROP TABLE REIMBURSEMENT1;
+delete from EMPLOYEE1 where EID =1;

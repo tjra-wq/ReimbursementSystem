@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+            <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+                <!-- Bootstrap CSS -->
+                <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
+                    <title>
+                        Reimbursement System
+                    </title>
+                </link>
+            </meta>
+        </meta>
+        <link href="stylesheet.css" rel="stylesheet" type="text/css" />
+        
+    </head>
+    <body>
+        <div class="parent">
+            <div class="login-outer-box">
+                <div class="title">
+                    <h1>
+                        Employee Reimbursement System
+                    </h1>
+                </div>
+                <div class="sign-up">
+                    <!-- <form action="LoginServlet" method="post">  -->
+                    <!-- Radio Buttons START-->
+                    <div class="radio-btn-box">
+                        <div class="radio-option left">
+                            <input checked="" id="employee" name="employeeType" type="radio" value="employee">
+                                <label for="employee">
+                                    Employee
+                                </label>
+                            </input>
+                        </div>
+                    </div>
+                    <div class="radio-option right">
+                        <input id="manager" name="employeeType" type="radio" value="manager"/>
+                        <label for="manager">
+                            Manager
+                        </label>
+                    </div>
+                </div>
+                <!-- Radio Buttons END-->
+
+
+                <div class="input-wrap" style="padding-top: 15px;">
+                    <input id="username" name="username" placeholder="Username" type="text"/>
+                </div>
+                <div class="input-wrap">
+                    <input id="password" name="password" placeholder="Password" type="password"/>
+                </div>
+                <!-- <input type="submit" value="login">   -->
+                <!-- </form>   -->
+                <div class="button-wrap">
+                    <button class="login-btn" id="loginBtn">
+                        Login
+                    </button>
+                </div>
+                <div class="sign-up">
+                    <h3 class="alert-text" id="message">
+                    </h3>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
+<!--<button id="getAll">GetAll</button>-->
+<!-- 
+  <table id="empTable">
+  <tr><thead><th>EID</th><th>Username</th><th>Password</th><th>FirstName</th><th>LastName</th><th>ManagerID</th></thead></tr>
+  <tr id="empTableData"></tr>
+  </table>
+   -->
+<script>
+    document.getElementById("loginBtn").addEventListener("click", loginTypeSelection);
+    //document.getElementById("getAll").addEventListener("click", getAllEMPLOYEES);
+    
+    function loginTypeSelection(){
+        let employeeSelection = document.getElementById("employee");
+        let managerSelection = document.getElementById("manager");
+
+        if(employeeSelection.checked == true){
+            loginAsEmployee();
+        }
+        if(managerSelection.checked == true){
+            loginAsManager();
+        }
+    }
+    
+    async function getAllEMPLOYEES(){
+        let httpResponse = await fetch("http://localhost:8080/Project1/api/getAll");
+        let everything = await httpResponse.json();
+        console.log(everything);
+        let tableData = document.getElementById("empTable");
+        //console.log(everything);
+        for (some of everything){
+            tableData.innerHTML = tableData.innerHTML + `<td>${some.EID}</td><td>${some.username}</td><td>${some.password}</td><td>${some.firstname}</td><td>${some.lastname}</td><td>${some.managerID}</td>`;
+        }
+    }
+
+    async function loginAsEmployee(){
+        let employee = {};
+        employee.EID = 111;
+        employee.username = document.getElementById("username").value;
+        employee.password = document.getElementById("password").value;
+        employee.firstname = "Something"
+        employee.lastname = "Something"
+        employee.managerID =111;
+        
+        let settings = {
+            method: 'POST',
+            header:{'Content-Type':'application/json'},
+            body:JSON.stringify(employee)
+        }
+        let httpResponse = await fetch("http://localhost:8080/Project1/api/employeelogin", settings);
+        console.log(httpResponse);
+        let httpResponseStatus = await httpResponse.status;
+        console.log(httpResponseStatus);
+        let message = document.getElementById("message");
+          
+        if(httpResponseStatus == 403){
+            message.innerHTML = "Error. Username or Password does not match"
+        }
+        else{
+            //console.log("here");
+            let employeeData = await httpResponse.json();
+            //console.log(employeeData);
+            sessionStorage.setItem("EID", employeeData.EID);
+            sessionStorage.setItem("username", employeeData.username);
+            sessionStorage.setItem("password", employeeData.password);
+            sessionStorage.setItem("firstname", employeeData.firstname);
+            sessionStorage.setItem("lastname", employeeData.lastname);
+            sessionStorage.setItem("managerID", employeeData.managerID);
+            /*
+            let encodedData = window.btoa(JSON.stringify(employee));
+            let employee = {};
+            employee.EID = employeeData.EID;
+            employee.username = employeeData.username;
+            employee.password = employeeData.password;
+            employee.firstname = employeeData.firstname;
+            employee.lastname = employeeData.lastname;
+            employee.managerID =employeeData.managerID;
+            console.log(encodedData);
+            let decodedData = window.atob(encodedData);
+            console.log(decodedData);
+            */
+            window.location = "http://localhost:8080/Project1/employeehome.html";
+        }
+    }
+
+    async function loginAsManager(){
+        let manager = {};
+        manager.EID = 111;
+        manager.username = document.getElementById("username").value;
+        manager.password = document.getElementById("password").value;
+        manager.firstname = "Something"
+        manager.lastname = "Something"
+        
+        let settings = {
+            method: 'POST',
+            header:{'Content-Type':'application/json'},
+            body:JSON.stringify(manager)
+        }
+        let httpResponse = await fetch("http://localhost:8080/Project1/api/managerlogin", settings);
+        console.log(httpResponse);
+        let httpResponseStatus = await httpResponse.status;
+        console.log(httpResponseStatus);
+        let message = document.getElementById("message");
+          
+        if(httpResponseStatus == 403){
+            message.innerHTML = "Error. Username or Password does not match"
+        }
+        else{
+            //console.log("here");
+            let managerData = await httpResponse.json();
+            //console.log(managerData);
+            sessionStorage.setItem("EID", managerData.EID);
+            sessionStorage.setItem("username", managerData.username);
+            sessionStorage.setItem("password", managerData.password);
+            sessionStorage.setItem("firstname", managerData.firstname);
+            sessionStorage.setItem("lastname", managerData.lastname);
+            window.location = "http://localhost:8080/Project1/managerhome.html";
+        }
+
+
+    }
+
+/* not used functions
+    function setCookie(cname, cvalue, exdays) {
+    var d = new Date();
+    d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+    var expires = "expires="+d.toUTCString();
+    document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+}
+    function getCookie(cname) {
+    var name = cname + "=";
+    var ca = document.cookie.split(';');
+    for(var i = 0; i < ca.length; i++) {
+    var c = ca[i];
+    while (c.charAt(0) == ' ') {
+      c = c.substring(1);
+    }
+    if (c.indexOf(name) == 0) {
+      return c.substring(name.length, c.length);
+        }
+    }
+  return "";
+    }
+    */
+</script>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script crossorigin="anonymous" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" src="https://code.jquery.com/jquery-3.2.1.slim.min.js">
+</script>
+<script crossorigin="anonymous" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js">
+</script>
+<script crossorigin="anonymous" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js">
+</script>

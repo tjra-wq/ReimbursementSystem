@@ -1,0 +1,200 @@
+body {
+		background: url(https://images.pexels.com/photos/956999/milky-way-starry-sky-night-sky-star-956999.jpeg?cs=srgb&dl=blue-and-purple-cosmic-sky-956999.jpg&fm=jpg) no-repeat center center fixed;
+		font-family: Calibri, sans-serif;
+		-webkit-background-size: cover;
+		  -moz-background-size: cover;
+		  -o-background-size: cover;
+		  background-size: cover;
+	}
+	.top-bar{
+		top: 0;
+		width: 100%;
+		background: linear-gradient(90deg,#0c2646 0,#204065 60%,#2a5788);
+    	color: white;
+	}
+
+	.top-bar .logo{
+	position: relative;
+    padding: .5rem .7rem;
+    z-index: 4;
+	}
+
+	.top-bar .logo:after{
+	content: "";
+    position: absolute;
+    bottom: 0;
+    left: 41%;
+    height: 1px;
+    width: calc(20% - 30px);
+    background-color: hsla(0,0%,100%,.5);
+	}
+
+	.logo h2{
+		font-size: 22px;
+    	text-align: center;
+	}
+
+	.top-bar-wrapper{
+		display: flex;
+		flex-direction: row;
+		width: 100%;
+		margin: 0 auto;
+	}
+	.welcome-msg{
+	text-align: center;
+    padding-top: 10px;
+	}
+
+	p.instruction{
+	text-align: center;
+    margin: 0 auto;
+    width: 30%;
+    border: 1px solid;
+    border-radius: 30px;
+    padding: 5px;
+    background: black;
+	}
+
+	.request-btn{
+		background-color: darkslategray;
+	    margin: 20px auto;
+	    border-radius: 30px;
+	    text-align: center;
+	    color: white;
+	    cursor: pointer;
+	    display: block;
+	}
+
+	.inner-data-box{
+		width: 100%;
+	    background: #fff;
+	    border-radius: 10px;
+	    overflow: hidden;
+	    padding: 92px 55px 92px 55px;
+	    box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+	    margin: 0 auto;
+	    margin-top: 20px;
+	}
+	.inner-data-box p{
+		text-align: center;
+	}
+	/*Login Page*/
+	.parent{
+		display: flex;
+	    justify-content: center;
+	    align-items: center;
+	    flex-direction: column;
+	    width: 100%;
+	}
+
+    .login-outer-box {
+		width: 390px;
+	    background: #fff;
+	    border-radius: 10px;
+	    overflow: hidden;
+	    padding: 92px 55px 92px 55px;
+	    box-shadow: 0 5px 10px 0px rgba(0, 0, 0, 0.1);
+	    margin: 0 auto;
+	    margin-top: 20px;
+	}
+
+	.title {
+		text-align: center;
+		margin-top: 0;
+		padding-bottom: 35px;
+	}
+	input[type=text],input[type=password] {
+		font-size: 15px;
+		line-height: 1.5;
+		color: #666;
+		display: block;
+		width: 100%;
+		background: #e6e6e6;
+		height: 50px;
+		border-radius: 25px;
+		padding: 0 30px 0 68px;
+	}
+	.input-wrap{
+		margin-bottom: 10px;
+		width: 100%;
+		justify-content: center;
+	}
+	.button-wrap{
+		padding-top: 20px;
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+	.login-btn{
+		font-size: 15px;
+		line-height: 1.5;
+		color: #fff;
+		text-transform: uppercase;
+		width: 100%;
+		height: 50px;
+		border-radius: 25px;
+		background: royalblue;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		padding: 0 25px;
+		cursor: pointer;
+	}
+	.login-btn:hover {background-color: #ddd;}
+	.sign-up-1{
+		font-size: 13px;
+		color: gray;
+		line-height: 1.5;		
+	}
+	.sign-up-2{
+		font-size: 13px;
+		color: gray;
+		line-height: 1.5;
+	}
+	a {
+		text-decoration: none;
+	}
+	.sign-up {
+		text-align: center;
+	}
+	h3.alert-text{
+		color: red;
+		font-size: 25px;
+		margin-top: 50px;
+		text-align: center;
+	}
+	.radio-option{
+		margin-bottom: 10px;
+	    border: 1px solid;
+	    text-align: center;
+	    font-size: 23px;
+	    background: black;
+	    color: white;
+	    border-radius: 26px;
+	    padding-top: 5px;
+	}
+
+/*Table style*/
+#reimbursementsTable {
+  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+  border-collapse: collapse;
+  width: 100%;
+  background-color: #fff;
+}
+
+#reimbursementsTable td, #reimbursementsTable th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+
+#reimbursementsTable tr:nth-child(even){background-color: #fff;}
+
+#reimbursementsTable tr:hover {background-color: #ddd;}
+
+#reimbursementsTable th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  text-align: left;
+  background-color: black;
+  color: white;
+}
+

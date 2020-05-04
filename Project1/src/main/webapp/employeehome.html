@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+            <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+                <!-- Bootstrap CSS -->
+                <link crossorigin="anonymous" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" rel="stylesheet">
+                    <link href="stylesheet.css" rel="stylesheet" type="text/css"/>
+                    <title>
+                        Project1 - Employee Home Page
+                    </title>
+                </link>
+            </meta>
+        </meta>
+    </head>
+    <body onload="showWelcomeMessage()">
+        <!-- Sidebar start -->
+        <div class="top-bar">
+            <div class="logo">
+                <h2>
+                    Employee Home
+                </h2>
+            </div>
+            <div class="welcome-msg">
+                <h3 id = "welcomeMsg">
+                </h3>
+                <h4 id="message">
+                   
+                </h4>
+            </div>
+            <p class="instruction">
+                Please select one of the following options
+            </p>
+            <div class="top-bar-wrapper">
+                <button class="request-btn" id="getAll">
+                    View All Requests
+                </button>
+                <button class="request-btn" id="ViewApproved">
+                    View Approved Requests
+                </button>
+                <button class="request-btn" id="ViewDenied">
+                    View Denied Requests
+                </button>
+                <button class="request-btn" id="ViewPending">
+                    View Pending Requests
+                </button>
+                <button class="request-btn" id="LogOut">
+                    Logout
+                </button>
+            </div>
+        </div>
+        <!-- Sidebar END -->
+        <div class="inner-data-box"> 
+    <div align="center">    
+    <table id = "inputTable" class="table table-sm">
+    <tr scope="row"> <input id="amount" name="username" placeholder="Please Enter Amount" type="text"/></tr>
+    <tr> <input id="description" name="username" placeholder="Please provide Description" type="text"/></tr>
+    <tr> <input id="date1" name="username" placeholder="Please enter date of this expense (YYYY-MM-DD)" type="text"/></tr>
+    <tr><button class="btn btn-primary" id="RSubmit">Submit</button></tr>  
+    </table>
+    </div>                 
+ 	<br><br>
+ 	<table id="reimbursementsTable">
+  </table>
+  </div>
+</body>
+
+<script>
+//getting session details
+let EID = sessionStorage.getItem("EID");
+let username = sessionStorage.getItem("username");
+let password = sessionStorage.getItem("password");
+let firstname = sessionStorage.getItem("firstname");
+let lastname = sessionStorage.getItem("lastname");
+let managerID = sessionStorage.getItem("managerID");
+//console.log(EID);
+//console.log(username);
+//console.log(password);
+//console.log(firstname);
+//console.log(lastname);
+//console.log(managerID);
+
+if(EID && username && password && firstname && lastname && managerID !=null) {
+    //event listeners
+    document.getElementById("getAll").addEventListener("click", viewAllReimbursementsEmployee);
+    document.getElementById("ViewApproved").addEventListener("click", ViewApprovedRequestsEmployee);
+	document.getElementById("ViewDenied").addEventListener("click", ViewDeniedRequestsEmployee);
+	document.getElementById("ViewPending").addEventListener("click", ViewPendingRequestsEmployee);
+	document.getElementById("LogOut").addEventListener("click", LogOutOfEmployee);
+	document.getElementById("RSubmit").addEventListener("click", submitNewReimbursement);
+	
+	//document.getElementById("welcomeMsg").addEventListener("load", showWelcomeMessage);
+	
+    let reimbursement = {};
+    reimbursement.RID = 111;
+    reimbursement.EIDRequester = EID;
+    reimbursement.AMOUNT = 111;
+    reimbursement.DESCRIPTION = "Something"
+    reimbursement.DATE1 = "Something"
+    reimbursement.RSTATUS = "Something"
+    reimbursement.RCOMMENT = "Something"
+    
+    let settings = {
+        method: 'POST',
+        header:{'Content-Type':'application/json'},
+        body:JSON.stringify(reimbursement)
+    }
+    
+    function showWelcomeMessage(){
+    	let msg = "Welcome, "+firstname+" "+lastname;
+    	document.getElementById("welcomeMsg").innerHTML = msg;
+    }
+	//1) view all requests
+    async function viewAllReimbursementsEmployee(){
+        let httpResponse = await fetch("http://localhost:8080/Project1/api/employeehome/viewAllReimbursementsEmployee", settings);
+        //console.log(httpResponse);
+        let httpResponseStatus = await httpResponse.status;
+        console.log(httpResponseStatus);
+        let message = document.getElementById("message");
+          
+        if(httpResponseStatus == 403){
+            message.innerHTML = "Error."
+        }
+        else{
+        	//console.log("here");
+        	//getting data
+            let reimburseData = await httpResponse.json();
+        	//putting in table
+        	let tableData = document.getElementById("reimbursementsTable");
+        	//document.getElementById("inputTable").style.display = "none";
+        	//let extraTableData = document.getElementById("inputTable");
+        	//extraTableData.innerHTML = "";
+        	tableData.innerHTML = "";
+        	tableData.innerHTML = `
+                <thead><tr>
+                        <th>RID</th>
+                        <th>AMOUNT</th>
+                        <th>DESCRIPTION</th>
+                        <th>DATE</th>
+                        <th>Status</th>
+                        <th>COMMENT</th>
+                </tr></thead>
+                `;
+        	for (rImb of reimburseData){
+        		tableData.innerHTML = tableData.innerHTML + 
+                `<tr>
+                 <td>${rImb.RID}</td>
+                 <td>$${rImb.AMOUNT}</td>
+                 <td>${rImb.DESCRIPTION}</td>
+                 <td>${rImb.DATE1}</td>
+                 <td>${rImb.RSTATUS}</td>
+                 <td>${rImb.RCOMMENT}</td>
+                 </tr>`;
+        	}
+        }
+    }
+	
+	//2) view approved requests
+    async function ViewApprovedRequestsEmployee(){
+        let httpResponse = await fetch("http://localhost:8080/Project1/api/employeehome/viewApprovedReimbursementsEmployee", settings);
+        //console.log(httpResponse);
+        let httpResponseStatus = await httpResponse.status;
+        console.log(httpResponseStatus);
+        let message = document.getElementById("message");
+          
+        if(httpResponseStatus == 403){
+            message.innerHTML = "Error."
+        }
+        else{
+        	//console.log("here");
+        	//getting data
+            let reimburseData = await httpResponse.json();
+        	//putting in table
+        	let tableData = document.getElementById("reimbursementsTable");
+        	tableData.innerHTML = "";
+        	tableData.innerHTML = `
+                <thead><tr>
+                        <th>RID</th>
+                        <th>AMOUNT</th>
+                        <th>DESCRIPTION</th>
+                        <th>DATE</th>
+                        <th>COMMENT</th>
+                </tr></thead>
+                `;
+            //let count = reimburseData.keys().length;
+            //console.log("count = ");
+            //console.log(count);
+        	for (rImb of reimburseData){
+        		tableData.innerHTML = tableData.innerHTML + 
+                `<tr>
+                 <td>${rImb.RID}</td>
+                 <td>$${rImb.AMOUNT}</td>
+                 <td>${rImb.DESCRIPTION}</td>
+                 <td>${rImb.DATE1}</td>
+                 <td>${rImb.RCOMMENT}</td>
+                 </tr>`;
+        	}
+        }
+    }
+	
+	//3) view denied requests
+    async function ViewDeniedRequestsEmployee(){
+        let httpResponse = await fetch("http://localhost:8080/Project1/api/employeehome/ViewDeniedRequestsEmployee", settings);
+        //console.log(httpResponse);
+        let httpResponseStatus = await httpResponse.status;
+        console.log(httpResponseStatus);
+        let message = document.getElementById("message");
+          
+        if(httpResponseStatus == 403){
+            message.innerHTML = "Error."
+        }
+        else{
+        	//console.log("here");
+        	//getting data
+            let reimburseData = await httpResponse.json();
+        	//putting in table
+        	let tableData = document.getElementById("reimbursementsTable");
+        	tableData.innerHTML = "";
+        	tableData.innerHTML = `
+                <thead><tr>
+                        <th>RID</th>
+                        <th>AMOUNT</th>
+                        <th>DESCRIPTION</th>
+                        <th>DATE</th>
+                        <th>COMMENT</th>
+                </tr></thead>
+                `;
+            //let count = reimburseData.keys().length;
+            //console.log("count = ");
+            //console.log(count);
+        	for (rImb of reimburseData){
+        		tableData.innerHTML = tableData.innerHTML + 
+                `<tr>
+                 <td>${rImb.RID}</td>
+                 <td>$${rImb.AMOUNT}</td>
+                 <td>${rImb.DESCRIPTION}</td>
+                 <td>${rImb.DATE1}</td>
+                 <td>${rImb.RCOMMENT}</td>
+                 </tr>`;
+        	}
+        }
+    }
+
+//4) view pending requests
+    
+    async function ViewPendingRequestsEmployee(){
+        let httpResponse = await fetch("http://localhost:8080/Project1/api/employeehome/ViewPendingRequestsEmployee", settings);
+        //console.log(httpResponse);
+        let httpResponseStatus = await httpResponse.status;
+        console.log(httpResponseStatus);
+        let message = document.getElementById("message");
+          
+        if(httpResponseStatus == 403){
+            message.innerHTML = "Error."
+        }
+        else{
+        	//console.log("here");
+        	//getting data
+            let reimburseData = await httpResponse.json();
+        	//putting in table
+        	let tableData = document.getElementById("reimbursementsTable");
+        	tableData.innerHTML = "";
+        	tableData.innerHTML = `
+                <thead><tr>
+                        <th>RID</th>
+                        <th>AMOUNT</th>
+                        <th>DESCRIPTION</th>
+                        <th>DATE</th>
+                        <th>COMMENT</th>
+                </tr></thead>
+                `;
+            //let count = reimburseData.keys().length;
+            //console.log("count = ");
+            //console.log(count);
+        	for (rImb of reimburseData){
+        		tableData.innerHTML = tableData.innerHTML + 
+                `<tr>
+                 <td>${rImb.RID}</td>
+                 <td>$${rImb.AMOUNT}</td>
+                 <td>${rImb.DESCRIPTION}</td>
+                 <td>${rImb.DATE1}</td>
+                 <td>${rImb.RCOMMENT}</td>
+                 </tr>`;
+        	}
+        }
+    }
+    
+//5) Logout
+    async function LogOutOfEmployee(){
+        let httpResponse = await fetch("http://localhost:8080/Project1/api/employeehome/logout", settings);	
+        sessionStorage.removeItem("EID");
+		sessionStorage.removeItem("username");
+		sessionStorage.removeItem("password");
+        sessionStorage.removeItem("firstname");
+        sessionStorage.removeItem("lastname");
+        sessionStorage.removeItem("managerID");
+        //let reimburseData = await httpResponse.json();
+        window.location = "http://localhost:8080/Project1";
+    }
+
+ //6) submitNewRequest   
+   
+    
+    async function submitNewReimbursement(){
+    	
+	 	reimbursement.RID = 0;   
+		reimbursement.EIDRequester = EID;
+        reimbursement.AMOUNT = document.getElementById("amount").value;
+        reimbursement.DESCRIPTION = document.getElementById("description").value;
+        reimbursement.DATE1 = document.getElementById("date1").value;
+        reimbursement.RSTATUS = "Something";
+        reimbursement.RCOMMENT = "Something";
+        
+        let settings = {
+                method: "POST",
+                header:{'Content-Type':'application/json'},
+                body: JSON.stringify(reimbursement)
+            }
+
+        let httpResponse = await fetch("http://localhost:8080/Project1/api/employeehome/submitNewReimbursement", settings);
+        console.log(httpResponse);
+        let httpResponseStatus = await httpResponse.status;
+        console.log(httpResponseStatus);
+        let message = document.getElementById("message");
+          
+        if(httpResponseStatus == 403){
+            message.innerHTML = "Error."
+        }
+        else{
+        	//console.log("here");
+        	//getting data
+            let reimburseData = await httpResponse;
+        	//putting in table
+        	let tableData = document.getElementById("reimbursementsTable");
+        	tableData.innerHTML = "";
+        	//message.innerHTML = "Submitted Successfully";
+        	tableData.innerHTML = `<tr><td> Submitted Successfully </td><tr>`;
+        } 
+ }
+ 
+} else {
+    console.log("no session found-everything is null");
+    window.location = "http://localhost:8080/Project1";
+}
+
+</script>
+<!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+</html>
