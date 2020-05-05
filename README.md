@@ -2,6 +2,7 @@
 This is the Project 1, a Reimbursement System where employees can Log in and submit requests. Managers can view these pending requests and either approve or deny them.
 
 
+
 -> Created DOM structures using HTML5 and modified UI elements using Bootstrap and custom CSS to improve intuitive design and usability.
 
 -> Generated Data Access Objects incorporating JDBC to perform CRUD operations on MariaDB database to persist data.
